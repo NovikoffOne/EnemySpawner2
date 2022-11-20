@@ -10,19 +10,14 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        MoveEnemy();
+        Move();
     }
 
-    public void KillEnemy()
-    {
-        Destroy(this.gameObject);
-    }
-
-    private void MoveEnemy()
+    private void Move()
     {
         if (_targetPosition == null)
         {
-            _targetPosition = GameObject.Find("Point").transform;
+            _targetPosition = FindObjectOfType<Destroyer>().transform;
         }
 
         transform.position = Vector3.MoveTowards(transform.position, _targetPosition.position, _speed * Time.deltaTime);
