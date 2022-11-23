@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private GameObject _enemy;
+    [SerializeField] private Enemy _enemy;
     [SerializeField] private int _countEnemy = 100;
 
+    private float _waitSeconds = 2f;
+    private WaitForSeconds _waitForSeconds;
     private Transform[] _spawnPosition;
     private Transform _curruntSpawn;
     private int _iteration = 0;
@@ -14,6 +16,8 @@ public class Spawner : MonoBehaviour
     private void Start()
     {
         _spawnPosition = GetComponentsInChildren<Transform>();
+
+        _waitForSeconds = new WaitForSeconds(_waitSeconds);
 
         StartCoroutine(Spawn());
     }
@@ -24,11 +28,11 @@ public class Spawner : MonoBehaviour
         {
             _curruntSpawn = _spawnPosition[Random.Range(0, _spawnPosition.Length)];
 
-            GameObject newEnemy = Instantiate(_enemy, _curruntSpawn.position, transform.rotation);
+            var newEnemy = Instantiate(_enemy, _curruntSpawn.position, transform.rotation);
 
             _iteration++;
 
-            yield return new WaitForSeconds(2f);
+            yield return _waitForSeconds;
         }
     }
 }
